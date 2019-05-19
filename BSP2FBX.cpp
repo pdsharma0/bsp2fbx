@@ -9,7 +9,7 @@
 BSP2FBX::BSP2FBX()
 {
 	m_bspLoader = nullptr;
-	m_fbxManager = FbxManager::Create();;
+	m_fbxManager = FbxManager::Create();
 	m_fbxScene = nullptr;
 }
 
@@ -236,9 +236,6 @@ FbxMesh* BSP2FBX::CreateFbxMesh(BSPMODEL* model) {
 //---------------------------------------------------------------------
 void BSP2FBX::GenerateFBX()
 {
-	// TODO: Create a scene hieararchy diagram
-	// http://download.autodesk.com/us/fbx/20112/FBX_SDK_HELP/index.html?url=WS1a9193826455f5ff3913a1a412260ca5929-74ce.htm,topicNumber=d0e7277
-
 	// Create scene object
 	m_fbxScene = FbxScene::Create(m_fbxManager, m_bspFileName.c_str());
 	FbxNode* root = m_fbxScene->GetRootNode();
@@ -246,6 +243,8 @@ void BSP2FBX::GenerateFBX()
 	// Create a visible geometry node containing all visible geometry in BSP
 	FbxNode* node_visible_geometry = FbxNode::Create(m_fbxScene, "visible_geometry");
 	printf("Creating FBX Node: visible_geometry\n");
+	// Applying a mirror transform in X direction for all the nodes down this hierarchy
+	node_visible_geometry->LclScaling.Set(FbxDouble3(-1, 1, 1));
 	root->AddChild(node_visible_geometry);
 
 	// ----- Visible Geometries in BSP  -----
@@ -326,8 +325,7 @@ void BSP2FBX::UnloadBSPFile()
 }
 
 //---------------------------------------------------------------------
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	if (argc < 2) {
 		printf("ERROR: No BSP file was provided as an argument.\n");
 		exit(1);

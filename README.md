@@ -39,9 +39,7 @@ The generated FBX contains a *visible_geometries* node under root. A node is cre
 
 ### Importing FBX file
 
-The only thing that's needed after importing the FBX file into your favorite DAC software is to **mirror everything in X axis**. In Blender, make sure you've selected the complete hierarchy of visible_geometries before doing the mirror transform. In UE4, you can mirror a StaticMesh by placing it in your scene, right clicking and select Transform->Mirror->X. 
-
-**Note** : The normals and tangents are exported in the FBX file but generating them again while importing works too. This has been tested in both UE4 and Cryengine and is known to reduce a few artifacts.
+Polygon normals and tangents are exported in the FBX file but they don't have any smoothing applied so it might result in a few visible artifacts. It's advisable to generate normals while importing to fix this problem. This has been tested in both UE4 and Cryengine and is known to get rid of such artifacts.
 
 ### Future Work
 
